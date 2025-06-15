@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Click Adventure</title>
+    <title>Galaxy Target Blaster</title>
     <style>
         /* === Cosmic Space Theme === */
         :root {
@@ -58,8 +58,8 @@
         #game-container {
             position: relative;
             width: 90%;
-            max-width: 700px;
-            height: 450px;
+            max-width: 800px;
+            height: 500px;
             margin: 20px auto;
             background: rgba(10, 10, 30, 0.7);
             border: 2px solid var(--space-purple);
@@ -71,68 +71,68 @@
 
         .target {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: radial-gradient(circle, var(--space-pink), var(--space-purple));
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 
-                0 0 20px var(--space-pink),
-                inset 0 0 10px rgba(255, 255, 255, 0.5);
+                0 0 30px var(--space-pink),
+                inset 0 0 15px rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
-            animation: float 3s infinite ease-in-out;
+            animation: float 4s infinite ease-in-out;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.05); }
+            50% { transform: translateY(-20px) scale(1.1); }
         }
 
         .target:hover {
-            transform: scale(1.1) !important;
+            transform: scale(1.2) !important;
             box-shadow: 
-                0 0 30px var(--space-pink),
-                inset 0 0 15px white;
+                0 0 40px var(--space-pink),
+                inset 0 0 20px white;
         }
 
         #score-display, #timer-display {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 15px 0;
-            padding: 12px 25px;
+            padding: 15px 30px;
             background: rgba(20, 20, 50, 0.6);
             border: 1px solid var(--space-blue);
             border-radius: 50px;
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
-            text-shadow: 0 0 10px var(--space-blue);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);
+            text-shadow: 0 0 15px var(--space-blue);
         }
 
         #start-button {
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 18px 45px;
+            font-size: 1.5rem;
             font-weight: bold;
             background: linear-gradient(45deg, var(--space-purple), var(--space-pink));
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            margin: 20px 0;
+            margin: 25px 0;
             transition: all 0.3s ease;
             box-shadow: 
-                0 5px 20px rgba(138, 43, 226, 0.5),
-                0 0 10px rgba(255, 255, 255, 0.5);
+                0 5px 25px rgba(138, 43, 226, 0.6),
+                0 0 15px rgba(255, 255, 255, 0.6);
             position: relative;
             overflow: hidden;
         }
 
         #start-button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
             box-shadow: 
-                0 8px 25px rgba(138, 43, 226, 0.7),
-                0 0 15px white;
+                0 10px 30px rgba(138, 43, 226, 0.8),
+                0 0 20px white;
         }
 
         #start-button:active {
-            transform: translateY(1px);
+            transform: translateY(2px);
         }
 
         #start-button::before {
@@ -144,7 +144,7 @@
             height: 200%;
             background: linear-gradient(
                 to bottom right,
-                rgba(255, 255, 255, 0.3),
+                rgba(255, 255, 255, 0.4),
                 rgba(255, 255, 255, 0)
             );
             transform: rotate(30deg);
@@ -158,7 +158,7 @@
 
         footer {
             margin-top: 30px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-align: center;
             opacity: 0.9;
             padding: 20px;
@@ -172,7 +172,7 @@
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+            50% { transform: scale(1.4); }
             100% { transform: scale(1); }
         }
 
@@ -182,18 +182,23 @@
             background: white;
             border-radius: 50%;
             pointer-events: none;
+            animation: float 10s infinite linear;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             .subtitle {
                 font-size: 1rem;
             }
             #game-container {
-                height: 350px;
+                height: 400px;
+            }
+            .target {
+                width: 70px;
+                height: 70px;
             }
         }
     </style>
@@ -202,12 +207,12 @@
     <!-- Cosmic Particles Background -->
     <div id="particles"></div>
 
-    <h1>Cosmic Click Adventure</h1>
-    <p class="subtitle">Click the glowing cosmic targets before they vanish into space!</p>
+    <h1>Galaxy Target Blaster</h1>
+    <p class="subtitle">Blast the giant cosmic targets before they vanish!</p>
     
     <div id="score-display">Score: 0</div>
-    <div id="timer-display">Time left: 30s</div>
-    <button id="start-button">Start Cosmic Journey</button>
+    <div id="timer-display">Time left: 60s</div>
+    <button id="start-button">Start Blasting!</button>
     
     <div id="game-container"></div>
     
@@ -217,24 +222,24 @@
         // Cosmic particles background
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+            const particleCount = 80;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                const size = Math.random() * 3 + 1;
+                const size = Math.random() * 4 + 1;
                 const posX = Math.random() * window.innerWidth;
                 const posY = Math.random() * window.innerHeight;
-                const opacity = Math.random() * 0.5 + 0.1;
-                const animationDuration = Math.random() * 20 + 10;
+                const opacity = Math.random() * 0.7 + 0.1;
+                const duration = Math.random() * 15 + 10;
                 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${posX}px`;
                 particle.style.top = `${posY}px`;
                 particle.style.opacity = opacity;
-                particle.style.animation = `float ${animationDuration}s infinite ease-in-out`;
+                particle.style.animationDuration = `${duration}s`;
                 
                 particlesContainer.appendChild(particle);
             }
@@ -247,7 +252,7 @@
         const startButton = document.getElementById('start-button');
         
         let score = 0;
-        let timeLeft = 30;
+        let timeLeft = 60; // 1 minute game
         let gameInterval;
         let timerInterval;
         let isGameRunning = false;
@@ -259,17 +264,17 @@
             
             isGameRunning = true;
             score = 0;
-            timeLeft = 30;
+            timeLeft = 60;
             scoreDisplay.textContent = `Score: ${score}`;
             timerDisplay.textContent = `Time left: ${timeLeft}s`;
             gameContainer.innerHTML = '';
             startButton.disabled = true;
             startButton.style.opacity = '0.7';
             
-            // Create targets periodically
-            gameInterval = setInterval(createTarget, 800);
+            // Create targets every second
+            gameInterval = setInterval(createTarget, 1000);
             
-            // Update timer
+            // Update timer every second
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerDisplay.textContent = `Time left: ${timeLeft}s`;
@@ -287,15 +292,15 @@
             target.className = 'target';
             
             // Random position within container
-            const maxX = gameContainer.clientWidth - 60;
-            const maxY = gameContainer.clientHeight - 60;
+            const maxX = gameContainer.clientWidth - 80;
+            const maxY = gameContainer.clientHeight - 80;
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
             
             target.style.left = `${randomX}px`;
             target.style.top = `${randomY}px`;
             
-            // Remove target after a short time if not clicked
+            // Remove target after 5 seconds if not clicked
             setTimeout(() => {
                 if (target.parentNode === gameContainer) {
                     target.style.transform = 'scale(0)';
@@ -304,9 +309,9 @@
                         if (target.parentNode === gameContainer) {
                             gameContainer.removeChild(target);
                         }
-                    }, 300);
+                    }, 500);
                 }
-            }, 1500);
+            }, 5000); // 5 seconds visibility
             
             // Add click event
             target.addEventListener('click', () => {
@@ -314,14 +319,14 @@
                 scoreDisplay.textContent = `Score: ${score}`;
                 
                 // Explode effect
-                target.style.transform = 'scale(1.5)';
+                target.style.transform = 'scale(1.8)';
                 target.style.opacity = '0';
-                target.style.boxShadow = '0 0 40px var(--space-pink)';
+                target.style.boxShadow = '0 0 50px var(--space-pink)';
                 setTimeout(() => {
                     if (target.parentNode === gameContainer) {
                         gameContainer.removeChild(target);
                     }
-                }, 200);
+                }, 300);
             });
             
             gameContainer.appendChild(target);
@@ -337,7 +342,12 @@
             // Remove all remaining targets
             gameContainer.innerHTML = '';
             
-            alert(`Cosmic Journey Complete!\nYour final score: ${score}`);
+            // Fancy end message
+            const message = score > 30 ? `Galactic Champion! 🏆\nYour score: ${score}` :
+                          score > 15 ? `Stellar Performance! ✨\nYour score: ${score}` :
+                          `Keep practicing, Space Cadet! 🚀\nYour score: ${score}`;
+            
+            alert(message);
         }
 
         // Initialize particles when page loads
