@@ -3,115 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glass Target Clicker</title>
+    <title>Cosmic Click Adventure</title>
     <style>
-        /* Modern Glass Liquid Theme */
+        /* === Cosmic Space Theme === */
         :root {
-            --glass-red: rgba(255, 50, 50, 0.6);
-            --glass-dark: rgba(20, 20, 30, 0.8);
-            --glass-light: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --glass-shadow: 0 8px 32px rgba(255, 50, 50, 0.2);
+            --space-dark: #0a0a20;
+            --space-purple: #8a2be2;
+            --space-pink: #ff00ff;
+            --space-blue: #00bfff;
+            --space-light: #e0e0ff;
+            --space-glow: 0 0 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Orbitron', 'Arial', sans-serif;
+            background: var(--space-dark);
+            color: var(--space-light);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 30%);
         }
 
         h1 {
-            margin-top: 20px;
-            text-shadow: 0 2px 10px rgba(255, 50, 50, 0.5);
-            font-size: 2.5rem;
+            font-size: 3rem;
+            margin: 20px 0;
+            background: linear-gradient(90deg, var(--space-blue), var(--space-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--space-glow) var(--space-purple);
+            letter-spacing: 2px;
         }
 
-        p {
+        .subtitle {
+            font-size: 1.2rem;
             opacity: 0.8;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 80%;
         }
 
         #game-container {
             position: relative;
             width: 90%;
-            max-width: 600px;
-            height: 400px;
+            max-width: 700px;
+            height: 450px;
             margin: 20px auto;
-            background: var(--glass-dark);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: var(--glass-shadow);
+            background: rgba(10, 10, 30, 0.7);
+            border: 2px solid var(--space-purple);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
         .target {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background: var(--glass-red);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, var(--space-pink), var(--space-purple));
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 50, 50, 0.7);
+            box-shadow: 
+                0 0 20px var(--space-pink),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
         }
 
         .target:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 50, 50, 0.9);
+            transform: scale(1.1) !important;
+            box-shadow: 
+                0 0 30px var(--space-pink),
+                inset 0 0 15px white;
         }
 
         #score-display, #timer-display {
             font-size: 1.5rem;
-            margin: 10px 0;
-            padding: 10px 20px;
-            background: var(--glass-dark);
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
+            margin: 15px 0;
+            padding: 12px 25px;
+            background: rgba(20, 20, 50, 0.6);
+            border: 1px solid var(--space-blue);
+            border-radius: 50px;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+            text-shadow: 0 0 10px var(--space-blue);
         }
 
         #start-button {
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            background: var(--glass-red);
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--space-purple), var(--space-pink));
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             margin: 20px 0;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 50, 50, 0.4);
+            box-shadow: 
+                0 5px 20px rgba(138, 43, 226, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
         }
 
         #start-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 50, 50, 0.6);
+            box-shadow: 
+                0 8px 25px rgba(138, 43, 226, 0.7),
+                0 0 15px white;
         }
 
         #start-button:active {
             transform: translateY(1px);
         }
 
+        #start-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3),
+                rgba(255, 255, 255, 0)
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -50%; }
+            100% { left: 150%; }
+        }
+
         footer {
-            margin-top: auto;
-            padding: 20px;
-            font-size: 1rem;
-            opacity: 0.8;
+            margin-top: 30px;
+            font-size: 1.2rem;
             text-align: center;
+            opacity: 0.9;
+            padding: 20px;
         }
 
         .heart {
             color: #ff3366;
             animation: pulse 1.5s infinite;
+            display: inline-block;
         }
 
         @keyframes pulse {
@@ -120,33 +176,71 @@
             100% { transform: scale(1); }
         }
 
-        /* Liquid bubble effect for targets */
-        .target::before {
-            content: '';
+        /* === Cosmic Particles Background === */
+        .particle {
             position: absolute;
-            top: -10px;
-            left: 15px;
-            width: 20px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.3);
+            background: white;
             border-radius: 50%;
-            filter: blur(5px);
+            pointer-events: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            #game-container {
+                height: 350px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Glass Target Clicker</h1>
-    <p>Click the red liquid targets before they disappear!</p>
+    <!-- Cosmic Particles Background -->
+    <div id="particles"></div>
+
+    <h1>Cosmic Click Adventure</h1>
+    <p class="subtitle">Click the glowing cosmic targets before they vanish into space!</p>
     
     <div id="score-display">Score: 0</div>
     <div id="timer-display">Time left: 30s</div>
-    <button id="start-button">Start Game</button>
+    <button id="start-button">Start Cosmic Journey</button>
     
     <div id="game-container"></div>
     
-    <footer>Made with <span class="heart">❤️</span> by Aryan Dhal</footer>
+    <footer>Made with <span class="heart">❤️</span> for Pukul by Lucky Bapa</footer>
     
     <script>
+        // Cosmic particles background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const opacity = Math.random() * 0.5 + 0.1;
+                const animationDuration = Math.random() * 20 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `float ${animationDuration}s infinite ease-in-out`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Game Logic
         const gameContainer = document.getElementById('game-container');
         const scoreDisplay = document.getElementById('score-display');
         const timerDisplay = document.getElementById('timer-display');
@@ -193,8 +287,8 @@
             target.className = 'target';
             
             // Random position within container
-            const maxX = gameContainer.clientWidth - 50;
-            const maxY = gameContainer.clientHeight - 50;
+            const maxX = gameContainer.clientWidth - 60;
+            const maxY = gameContainer.clientHeight - 60;
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
             
@@ -204,8 +298,8 @@
             // Remove target after a short time if not clicked
             setTimeout(() => {
                 if (target.parentNode === gameContainer) {
-                    target.style.opacity = '0';
                     target.style.transform = 'scale(0)';
+                    target.style.opacity = '0';
                     setTimeout(() => {
                         if (target.parentNode === gameContainer) {
                             gameContainer.removeChild(target);
@@ -222,6 +316,7 @@
                 // Explode effect
                 target.style.transform = 'scale(1.5)';
                 target.style.opacity = '0';
+                target.style.boxShadow = '0 0 40px var(--space-pink)';
                 setTimeout(() => {
                     if (target.parentNode === gameContainer) {
                         gameContainer.removeChild(target);
@@ -242,8 +337,11 @@
             // Remove all remaining targets
             gameContainer.innerHTML = '';
             
-            alert(`Game Over! Your score: ${score}`);
+            alert(`Cosmic Journey Complete!\nYour final score: ${score}`);
         }
+
+        // Initialize particles when page loads
+        window.onload = createParticles;
     </script>
 </body>
 </html>
